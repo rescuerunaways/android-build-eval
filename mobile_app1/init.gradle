@@ -10,7 +10,7 @@ initscript {
     }
 
     dependencies {
-        classpath 'io.bitrise.gradle:remote-cache:1.2.0'
+        classpath 'io.bitrise.gradle:remote-cache:main-SNAPSHOT'
     }
 }
 
@@ -26,11 +26,11 @@ gradle.settingsEvaluated { settings ->
         registerBuildCacheService(BitriseBuildCache.class, BitriseBuildCacheServiceFactory.class)
         remote(BitriseBuildCache.class) {
             endpoint = System.getenv('BITRISE_CACHE_ENDPOINT')
-            authToken = System.getenv('BITRISE_CACHE_TOKEN')
+            authToken = System.getenv('BITRISE_WORKSPACE_SLUG') + ":" + System.getenv('BITRISE_CACHE_TOKEN')
             enabled = true
             push = true
             debug = true
-            blobValidationLevel = "none"
+            // blobValidationLevel = 'error'
         }
     }
 }
